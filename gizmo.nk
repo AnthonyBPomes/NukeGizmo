@@ -2,19 +2,19 @@
 version 12.0 v7
 define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
 <layout version="1.0">
-    <window x="0" y="0" w="1919" h="1000" screen="0">
+    <window x="0" y="0" w="1920" h="1000" maximized="1" screen="0">
         <splitter orientation="1">
-            <split size="36"/>
+            <split size="40"/>
             <dock id="" hideTitles="1" activePageId="Toolbar.1">
                 <page id="Toolbar.1"/>
             </dock>
-            <split size="1369" stretch="1"/>
+            <split size="1257" stretch="1"/>
             <splitter orientation="2">
-                <split size="561"/>
+                <split size="547"/>
                 <dock id="" activePageId="Viewer.1">
                     <page id="Viewer.1"/>
                 </dock>
-                <split size="395"/>
+                <split size="409"/>
                 <dock id="" activePageId="DAG.1" focus="true">
                     <page id="DAG.1"/>
                     <page id="Curve Editor.1"/>
@@ -22,16 +22,16 @@ define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
                     <page id="DAG.2"/>
                 </dock>
             </splitter>
-            <split size="506"/>
+            <split size="615"/>
             <dock id="" activePageId="Properties.1">
                 <page id="Properties.1"/>
                 <page id="uk.co.thefoundry.backgroundrenderview.1"/>
             </dock>
         </splitter>
     </window>
-    <window x="2249" y="739" w="1541" h="957" screen="1">
+    <window x="2261" y="67" w="1160" h="960" screen="1">
         <splitter orientation="2">
-            <split size="957"/>
+            <split size="960"/>
             <dock id="" activePageId="uk.co.thefoundry.scripteditor.1">
                 <page id="uk.co.thefoundry.scripteditor.1"/>
             </dock>
@@ -42,10 +42,10 @@ define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
 Root {
  inputs 0
  name /mnt/resources/PIPELINE/backup/gizmo.nk
- frame 9
+ frame 17
  last_frame 1100
  fps 25
- format "1920 1080 0 5 1920 1080 1 HD_1080"
+ format "1920 1080 0 5 1920 1080 1 HD_1080_1"
  proxy_type scale
  proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
  colorManagement OCIO
@@ -57,23 +57,22 @@ Root {
  logLut compositing_log
  floatLut scene_linear
 }
-Read {
- inputs 0
- file /mnt/projects/10151_PAPAYA_FILMS_OTRIVIN/Sequence/30/SC_0010/comp/output/compRender/30sec-SC-0010_comp_v02.mov
- format "1920 1080 0 5 1920 1080 1 HD_1080"
- last 36
- origlast 36
- origset true
- on_error black
- name Read1
- label "\[value first] - \[value last]"
- xpos -452
- ypos -326
-}
 Group {
- name Burn_in_group
- xpos -166
- ypos -201
+ inputs 0
+ name Burn_in
+ label "\[python nuke.thisNode().knob('applying_colour_font').execute()]"
+ xpos -191
+ ypos -197
+ addUserKnob {20 User}
+ addUserKnob {22 applying_colour_font l "" +STARTLINE +INVISIBLE T "colorValue = nuke.thisNode().knob('color').getValue()\n\nfor knobKey in nuke.thisNode().knobs().keys():\n    if 'color_number' in knobKey:\n        nuke.thisNode().knob(knobKey).setValue(colorValue)\n\nfontValue = nuke.thisNode().knob('font').getValue()\n\nfor knobKey in nuke.thisNode().knobs().keys():\n    if 'font_number' in knobKey:\n        nuke.thisNode().knob(knobKey).setValue(fontValue\[0],fontValue\[1])" +STARTLINE}
+ addUserKnob {41 font l Font T Text1.font}
+ addUserKnob {41 color l "Font Colour" T Text1.color}
+ addUserKnob {41 font_number_1 l font +INVISIBLE T Text2.font}
+ addUserKnob {41 font_number_2 l font +INVISIBLE T Text3.font}
+ addUserKnob {41 font_number_3 l font +INVISIBLE T Text4.font}
+ addUserKnob {41 color_number_1 l color +INVISIBLE T Text2.color}
+ addUserKnob {41 color_number_2 l color +INVISIBLE T Text3.color}
+ addUserKnob {41 color_number_3 l color +INVISIBLE T Text4.color}
 }
  Input {
   inputs 0
@@ -88,7 +87,6 @@ Group {
   resize none
   black_outside true
   name Reformat1
-  selected true
   xpos -287
   ypos -208
  }
@@ -97,15 +95,16 @@ Group {
   font_width_toolbar 100
   font_height_toolbar 100
   message "\[frame]"
-  old_message {{49 50 49}
+  old_message {{49 53}
     }
-  old_expression_markers {{0 2}
+  old_expression_markers {{0 1}
     }
   box {0 0 1920 1300}
   yjustify bottom
   transforms {{0 2}
     }
   cursor_position 7
+  font {{ Arial : Regular : arial.ttf : 0 }}
   center {960 540}
   cursor_initialised true
   autofit_bbox false
@@ -131,6 +130,7 @@ Group {
   transforms {{0 2}
     }
   cursor_position 52
+  font {{ Arial : Regular : arial.ttf : 0 }}
   center {960 540}
   cursor_initialised true
   autofit_bbox false
@@ -141,7 +141,7 @@ Group {
     }
   name Text2
   xpos -287
-  ypos -121
+  ypos -116
  }
  Text2 {
   font_size_toolbar 100
@@ -156,6 +156,154 @@ Group {
     }
   font_size_values {{0 100 1 100 2 100 3 100 4 100 5 100 6 100 0 94 1 94 2 94 3 94 4 94 5 94 6 94}
     }
+  font {{ Arial : Regular : arial.ttf : 0 }}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1300}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text3
+  xpos -287
+  ypos -73
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[frame] / \[value last_frame]"
+  old_message {{49 53 32 47 32 49 49 48 48}
+    }
+  old_expression_markers {{0 1 5 8}
+    }
+  box {0 0 1920 1300}
+  xjustify right
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font {{ Arial : Regular : arial.ttf : 0 }}
+  center {960 540}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{1435.5 436.5}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text4
+  xpos -287
+  ypos -24
+ }
+ Output {
+  name Output1
+  xpos -284
+  ypos 50
+ }
+end_group
+Read {
+ inputs 0
+ file /mnt/projects/10151_PAPAYA_FILMS_OTRIVIN/Sequence/30/SC_0010/comp/output/compRender/30sec-SC-0010_comp_v02.mov
+ format "1920 1080 0 5 1920 1080 1 HD_1080_1"
+ last 36
+ origlast 36
+ origset true
+ on_error black
+ name Read1
+ label "\[value first] - \[value last]"
+ xpos -452
+ ypos -326
+}
+Gizmo {
+ name Gizmo1
+ label "\[python nuke.thisNode().knob('applying_colour_font').execute()]"
+ xpos -321
+ ypos -151
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -287
+  ypos -249
+ }
+ Reformat {
+  type "to box"
+  box_width 1920
+  box_height 1300
+  resize none
+  black_outside true
+  name Reformat1
+  xpos -287
+  ypos -208
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[frame]"
+  old_message {{49 55}
+    }
+  old_expression_markers {{0 1}
+    }
+  box {0 0 1920 1300}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 7
+  font {{ Arial : Regular : arial.ttf : 0 }}
+  center {960 540}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text1
+  xpos -287
+  ypos -165
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[string trimright \[file tail \[value root.name]] .nk]"
+  old_message {{103 105 122 109 111}
+    }
+  old_expression_markers {{0 4}
+    }
+  box {0 0 1920 1300}
+  transforms {{0 2}
+    }
+  cursor_position 52
+  font {{ Arial : Regular : arial.ttf : 0 }}
+  center {960 540}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1300}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text2
+  xpos -287
+  ypos -116
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message Heckler
+  old_message {{72 101 99 107 108 101 114}
+    }
+  box {0 0 1920 1300}
+  xjustify right
+  transforms {{0 2}
+    }
+  font_size_values {{0 100 1 100 2 100 3 100 4 100 5 100 6 100 0 94 1 94 2 94 3 94 4 94 5 94 6 94}
+    }
+  font {{ Arial : Regular : arial.ttf : 0 }}
   scale {1 1}
   cursor_initialised true
   autofit_bbox false
@@ -173,15 +321,16 @@ Group {
   font_width_toolbar 100
   font_height_toolbar 100
   message "\[frame] / \[value last_frame]"
-  old_message {{49 50 49 32 47 32 51 54}
+  old_message {{49 55 32 47 32 51 54}
     }
-  old_expression_markers {{0 2 6 7}
+  old_expression_markers {{0 1 5 6}
     }
   box {0 0 1920 1300}
   xjustify right
   yjustify bottom
   transforms {{0 2}
     }
+  font {{ Arial : Regular : arial.ttf : 0 }}
   center {960 540}
   cursor_initialised true
   autofit_bbox false
@@ -201,7 +350,7 @@ Group {
  }
 end_group
 Viewer {
- frame 9
+ frame 17
  frame_range 1-1100
  frame_increment 8
  fps 25
